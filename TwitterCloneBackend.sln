@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{8707EC67-0422-4692-BE0D-65C97623832D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{8707EC67-0422-4692-BE0D-65C97623832D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostService", "PostService\PostService.csproj", "{821B72A5-F9FE-4AB7-B38F-EC055981B94B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PostService", "PostService\PostService.csproj", "{821B72A5-F9FE-4AB7-B38F-EC055981B94B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "OcelotApiGateway\OcelotApiGateway.csproj", "{5F7A7765-D598-40F3-ABDE-7DD5369F9FD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{821B72A5-F9FE-4AB7-B38F-EC055981B94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{821B72A5-F9FE-4AB7-B38F-EC055981B94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{821B72A5-F9FE-4AB7-B38F-EC055981B94B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F7A7765-D598-40F3-ABDE-7DD5369F9FD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F7A7765-D598-40F3-ABDE-7DD5369F9FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F7A7765-D598-40F3-ABDE-7DD5369F9FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F7A7765-D598-40F3-ABDE-7DD5369F9FD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

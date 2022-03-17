@@ -1,4 +1,4 @@
-namespace TwitterCloneBackend
+namespace UserService
 {
     public class WeatherForecast
     {

@@ -1,7 +1,9 @@
-using PostService.Repositories;
-using PostService.Repositories.Interfaces;
-using PostService.Services;
-using PostService.Services.Interfaces;
+using PostMicroService.Data;
+using PostMicroService.Repositories;
+using PostMicroService.Repositories.Interfaces;
+using PostMicroService.Services;
+using PostMicroService.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var MyCors = "_myCors";
 
@@ -17,6 +19,10 @@ builder.Services.AddSwaggerGen();
 // Dependency injection
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService>();
+
+// Setup database
+builder.Services.AddDbContext<PostDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
 builder.Services.AddCors(options =>
 {

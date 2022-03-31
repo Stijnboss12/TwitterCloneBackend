@@ -4,5 +4,9 @@ namespace PostMicroService.Data
 {
     public class PostDbContext : DbContext
     {
+        public PostDbContext()
+        {
+
+        }
     }
 }

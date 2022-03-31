@@ -1,4 +1,7 @@
 {
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7006"
+  },
   "Routes": [
     {
       "DownstreamPathTemplate": "/WeatherForecast",
@@ -6,7 +9,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 7051
+          "Port": 7083
         }
       ],
       "UpstreamPathTemplate": "/api/WeatherForecast",
@@ -15,8 +18,5 @@
         "AllowedScopes": []
       }
     }
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7006"
-  }
+  ]
 }

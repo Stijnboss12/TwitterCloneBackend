@@ -4,6 +4,8 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using OcelotApiGateway;
 
+var MyCors = "_myCors";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -36,7 +38,19 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyCors,
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
+
 builder.Services.AddOcelot();
+
 
 var app = builder.Build();
 
@@ -47,6 +61,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyCors);
 
 app.UseOcelot();
 

@@ -1,4 +1,15 @@
-﻿namespace UserMicroService.Domain
+﻿using Newtonsoft.Json;
+
+namespace UserMicroService.Domain
 {
-    public record IError(int Code, string Message);
+    public class IError
+    {
+        public int StatusCode { get; set; }
+        public string Message { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
 }

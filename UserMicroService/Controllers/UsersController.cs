@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UserMicroService.Models.DTO;
+using UserMicroService.Services.Interfaces;
 
 namespace UserMicroService.Controllers
 {
@@ -6,9 +8,27 @@ namespace UserMicroService.Controllers
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
-        public UsersController()
+        private readonly IUserService _userService;
+        public UsersController(IUserService userService)
         {
+            _userService = userService;
+        }
 
+        [HttpGet("Login")]
+        public async Task<IActionResult> UserLogin()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var headers = Request.Headers.ToDictionary(x => x.Key, x => x.Value);
+
+            var user = new UserDTO() { Id = headers["id"], Username = headers["username"]};
+
+            var loggedinuser = await _userService.UserLogin(user);
+
+            return Ok();
         }
     }
 }

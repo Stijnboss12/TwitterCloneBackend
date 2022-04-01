@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UserMicroService.Models;
 
 namespace UserMicroService.Data
 {
@@ -8,5 +9,12 @@ namespace UserMicroService.Data
         {
 
         }
+
+        public UserDbContext(DbContextOptions<UserDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<User> Users { get; set; }
     }
 }

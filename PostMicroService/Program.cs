@@ -5,8 +5,6 @@ using PostMicroService.Services;
 using PostMicroService.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-var MyCors = "_myCors";
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,17 +21,6 @@ builder.Services.AddScoped<IPostService, PostService>();
 // Setup database
 builder.Services.AddDbContext<PostDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyCors,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost:8080")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
-});
 
 var app = builder.Build();
 
@@ -55,8 +42,6 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.UseCors(MyCors);
 
 app.MapControllers();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PostMicroService.Models;
 
 namespace PostMicroService.Data
 {
@@ -8,5 +9,12 @@ namespace PostMicroService.Data
         {
 
         }
+
+        public PostDbContext(DbContextOptions<PostDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Post> Posts { get; set; }
     }
 }

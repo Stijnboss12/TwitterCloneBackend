@@ -57,26 +57,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
-app.UseExceptionHandler(errorApp =>
-{
-    errorApp.Run(async context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-        context.Response.ContentType = "application/json";
-
-        var error = context.Features.Get<IExceptionHandlerFeature>();
-        if (error != null)
-        {
-            var ex = error.Error;
-
-            await context.Response.WriteAsync(new IError()
-            {
-                StatusCode = 400,
-                Message = ex.Message
-            }.ToString(), Encoding.UTF8);
-        }
-    });
-});
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

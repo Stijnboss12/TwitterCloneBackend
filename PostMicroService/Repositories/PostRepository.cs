@@ -1,4 +1,6 @@
-﻿using PostMicroService.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PostMicroService.Data;
+using PostMicroService.Models;
 using PostMicroService.Repositories.Interfaces;
 
 namespace PostMicroService.Repositories
@@ -10,6 +12,19 @@ namespace PostMicroService.Repositories
         public PostRepository(PostDbContext postDbContext)
         {
             _dbContext = postDbContext;
+        }
+
+        public async Task<List<Post>> GetPosts()
+        {
+            return await _dbContext.Posts.Take(20).ToListAsync();
+        }
+
+        public async Task<Post> CreateNewPost(Post post)
+        {
+            await _dbContext.Posts.AddAsync(post);
+            await _dbContext.SaveChangesAsync();
+
+            return post;
         }
     }
 }

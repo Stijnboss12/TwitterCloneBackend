@@ -15,8 +15,10 @@ IMapper SetupMapper()
 {
     var configuration = new MapperConfiguration(cfg =>
     {
-        cfg.CreateMap<UserDTO, User>();
         cfg.CreateMap<User, UserDTO>();
+        cfg.CreateMap<UserDTO, User>();
+        cfg.CreateMap<Subscription, SubscriptionDTO>();
+        cfg.CreateMap<SubscriptionDTO, Subscription>();
     });
 
     return new Mapper(configuration);
@@ -35,6 +37,8 @@ builder.Services.AddSwaggerGen();
 // Dependency injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 // Setup database
 builder.Services.AddDbContext<UserDbContext>(options =>

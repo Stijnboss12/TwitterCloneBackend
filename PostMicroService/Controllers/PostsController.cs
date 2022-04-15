@@ -32,6 +32,7 @@ namespace PostMicroService.Controllers
             }
 
             postDTO.UserId = Request.Headers.ToDictionary(x => x.Key, x => x.Value)["id"];
+            postDTO.Username = Request.Headers.ToDictionary(x => x.Key, x => x.Value)["username"];
 
             var createdPost = await _postService.CreateNewPost(postDTO);
 

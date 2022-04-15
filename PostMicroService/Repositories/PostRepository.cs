@@ -21,6 +21,7 @@ namespace PostMicroService.Repositories
 
         public async Task<Post> CreateNewPost(Post post)
         {
+            post.PostedOn = DateTime.UtcNow;
             await _dbContext.Posts.AddAsync(post);
             await _dbContext.SaveChangesAsync();
 

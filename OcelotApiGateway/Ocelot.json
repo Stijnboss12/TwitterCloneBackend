@@ -3,6 +3,7 @@
     "BaseUrl": "https://localhost:7006"
   },
   "Routes": [
+    // Users
     {
       "DownstreamPathTemplate": "/Users/Login",
       "DownstreamScheme": "https",
@@ -23,6 +24,7 @@
       }
     },
     {
+    // Posts
       "DownstreamPathTemplate": "/Posts/New",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -37,7 +39,8 @@
         "AllowedScopes": []
       },
       "AddHeadersToRequest": {
-        "id": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
+        "id": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value",
+        "username": "Claims[https://TwitterClone/username] > value"
       }
     },
     {

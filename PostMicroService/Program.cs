@@ -47,6 +47,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseMiddleware<ExceptionMiddleware>();
+}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -55,8 +59,6 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<PostDbContext>();
     context.Database.EnsureCreated();
 }
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

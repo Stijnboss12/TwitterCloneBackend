@@ -11,7 +11,11 @@ namespace PostMicroService.Models
         [Required]
         public string UserId { get; set; } = string.Empty;
         [Required]
+        public string Username { get; set; } = string.Empty;
+        [Required]
         [MaxLength(300)]
         public string Content { get; set; } = string.Empty;
+        [Required]
+        public DateTime PostedOn { get; set; }
     }
 }

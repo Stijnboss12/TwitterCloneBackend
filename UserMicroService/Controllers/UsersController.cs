@@ -17,14 +17,9 @@ namespace UserMicroService.Controllers
         [HttpGet("Login")]
         public async Task<IActionResult> UserLogin()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             var headers = Request.Headers.ToDictionary(x => x.Key, x => x.Value);
 
-            var user = new UserDTO() { Id = headers["id"], Username = headers["username"]};
+            var user = new UserDTO() { Id = headers["id"], Username = headers["username"] };
 
             var loggedinuser = await _userService.UserLogin(user);
 

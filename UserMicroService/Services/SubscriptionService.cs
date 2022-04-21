@@ -24,6 +24,11 @@ namespace UserMicroService.Services
                 return existingSubscription;
             }
 
+            if (newSubscriptionDTO.SubscriberId == newSubscriptionDTO.SubscribedId)
+            {
+                throw new Exception("Users can not subscribe to themselves");
+            }
+
             var createdSubscription = await _subscriptionRepository.CreateSubscription(_mapper.Map<Subscription>(newSubscriptionDTO));
 
             return createdSubscription;

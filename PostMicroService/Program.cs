@@ -10,6 +10,8 @@ using System.Text;
 using AutoMapper;
 using PostMicroService.Models.DTO;
 using PostMicroService.Models;
+using MassTransit;
+using PostMicroService.Messaging;
 
 IMapper SetupMapper()
 {
@@ -39,6 +41,22 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddDbContext<PostDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
+// Setup message broker
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<ConsumeMessageHandler>();
+    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
+    {
+        cfg.Host(new Uri(builder.Configuration.GetSection("AppConfig")["RabbitMQBaseUrl"]));
+        cfg.ReceiveEndpoint("MessageQueue", ep =>
+        {
+            ep.PrefetchCount = 16;
+            ep.ConfigureConsumer<ConsumeMessageHandler>(provider);
+        });
+    }));
+});
+builder.Services.AddMassTransitHostedService();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,14 +68,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseMiddleware<ExceptionMiddleware>();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<PostDbContext>();
-    context.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

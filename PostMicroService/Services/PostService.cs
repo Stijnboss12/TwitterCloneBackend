@@ -31,5 +31,19 @@ namespace PostMicroService.Services
 
             return await _postRepository.CreateNewPost(_mapper.Map<Post>(postDTO));
         }
+
+        public async Task<List<Post>> UpdateUsernameOfPosts(string userId, string username)
+        {
+            var posts = await _postRepository.GetPostsByUserId(userId);
+
+            foreach (var post in posts)
+            {
+                post.Username = username;
+            }
+
+            var updatedPosts = await _postRepository.UpdatePosts(posts);
+
+            return updatedPosts;
+        }
     }
 }

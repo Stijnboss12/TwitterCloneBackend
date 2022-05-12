@@ -4,9 +4,15 @@ services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
-      - 5433:1433
+      - "5433:1433"
     volumes:
       - ~/apps/mssql/data:/var/lib/mssql/data
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=SATwitterClone123
+      - SA_PASSWORD=SuperPassword123
+
+  rabbitMQ:
+    image: rabbitmq:3.9-management
+    ports:
+      - 5672:5672
+      - 15672:15672

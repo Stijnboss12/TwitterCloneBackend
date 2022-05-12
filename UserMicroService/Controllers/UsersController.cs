@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Mvc;
+using TwitterCloneBackend.Shared.Messaging.MessageModels;
+using UserMicroService.Messaging;
 using UserMicroService.Models;
 using UserMicroService.Models.DTO;
 using UserMicroService.Services.Interfaces;
@@ -11,11 +14,17 @@ namespace UserMicroService.Controllers
     {
         private readonly IUserService _userService;
         private readonly ISubscriptionService _subscriptionService;
+        private readonly ISendMessageHandler _sendMessageHandler;
+        private readonly IConfiguration _configuration;
+        private readonly IBus _bus;
 
-        public UsersController(IUserService userService, ISubscriptionService subscriptionService)
+        public UsersController(IUserService userService, ISubscriptionService subscriptionService, ISendMessageHandler sendMessageHandler, IConfiguration configuration, IBus bus)
         {
             _userService = userService;
             _subscriptionService = subscriptionService;
+            _sendMessageHandler = sendMessageHandler;
+            _configuration = configuration;
+            _bus = bus;
         }
 
         [HttpGet("Login")]
@@ -26,6 +35,14 @@ namespace UserMicroService.Controllers
             var user = new UserDTO() { Id = headers["id"], Username = headers["username"] };
 
             var loggedinuser = await _userService.UserLogin(user);
+
+            return Ok();
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> UserRegister([FromBody] UserDTO userDTO)
+        {
+            var registeredUser = await _userService.UserLogin(userDTO);
 
             return Ok();
         }
@@ -56,6 +73,14 @@ namespace UserMicroService.Controllers
             var createdSubscription = await _subscriptionService.CreateSubscription(subscriptionDTO);
 
             return Ok(createdSubscription);
+        }
+
+        [HttpPost("messagesend")]
+        public async Task<IActionResult> SendMessage([FromBody] UsernameChangeMessage message)
+        {
+            await _sendMessageHandler.SendUsernameChangeMessage(message);
+
+            return Ok();
         }
     }
 }

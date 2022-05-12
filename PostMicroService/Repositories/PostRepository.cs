@@ -19,6 +19,11 @@ namespace PostMicroService.Repositories
             return await _dbContext.Posts.Take(20).ToListAsync();
         }
 
+        public async Task<List<Post>> GetPostsByUserId(string userId)
+        {
+            return await _dbContext.Posts.Where(x => x.UserId == userId).ToListAsync();
+        }
+
         public async Task<Post> CreateNewPost(Post post)
         {
             post.PostedOn = DateTime.UtcNow;
@@ -26,6 +31,14 @@ namespace PostMicroService.Repositories
             await _dbContext.SaveChangesAsync();
 
             return post;
+        }
+
+        public async Task<List<Post>> UpdatePosts(List<Post> posts)
+        {
+            _dbContext.Posts.UpdateRange(posts);
+            await _dbContext.SaveChangesAsync();
+
+            return posts;
         }
     }
 }

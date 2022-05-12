@@ -10,6 +10,8 @@ using System.Text;
 using AutoMapper;
 using UserMicroService.Models.DTO;
 using UserMicroService.Models;
+using MassTransit;
+using UserMicroService.Messaging;
 
 IMapper SetupMapper()
 {
@@ -39,10 +41,21 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<ISendMessageHandler, SendMessageHandler>();
 
 // Setup database
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+// Setup Messaging
+builder.Services.AddMassTransit(x =>
+{
+    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+    {
+        config.Host(new Uri(builder.Configuration.GetSection("AppConfig")["RabbitMQBaseUrl"]));
+    }));
+});
+builder.Services.AddMassTransitHostedService();
 
 var app = builder.Build();
 

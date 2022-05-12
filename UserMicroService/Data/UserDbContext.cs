@@ -16,5 +16,6 @@ namespace UserMicroService.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
     }
 }

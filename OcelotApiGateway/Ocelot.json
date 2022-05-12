@@ -24,7 +24,40 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/Users/Subscribe",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7016
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/Subscribe",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Auth0",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": {
+        "id": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/Users/{all}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7016
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/{all}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Auth0",
+        "AllowedScopes": []
+      }
+    },
     // Posts
+    {
       "DownstreamPathTemplate": "/Posts/New",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

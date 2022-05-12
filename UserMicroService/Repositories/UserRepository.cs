@@ -36,5 +36,10 @@ namespace UserMicroService.Repositories
 
             return newUser;
         }
+
+        public async Task<List<User>> GetUsersByUsername(string username)
+        {
+            return await _dbContext.Users.Where(x => x.Username.Contains(username)).ToListAsync();
+        }
     }
 }

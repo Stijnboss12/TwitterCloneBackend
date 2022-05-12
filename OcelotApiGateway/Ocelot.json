@@ -24,6 +24,17 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/Users/Register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7016
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/Register"
+    },
+    {
       "DownstreamPathTemplate": "/Users/Subscribe",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

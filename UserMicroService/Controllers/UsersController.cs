@@ -39,6 +39,14 @@ namespace UserMicroService.Controllers
             return Ok();
         }
 
+        [HttpPost("Register")]
+        public async Task<IActionResult> UserRegister([FromBody] UserDTO userDTO)
+        {
+            var registeredUser = await _userService.UserLogin(userDTO);
+
+            return Ok();
+        }
+
         [HttpGet("{username}")]
         public async Task<IActionResult> GetUsers(string username)
         {
@@ -68,11 +76,9 @@ namespace UserMicroService.Controllers
         }
 
         [HttpPost("messagesend")]
-        public async Task<IActionResult> SendMessage([FromBody] string message)
+        public async Task<IActionResult> SendMessage([FromBody] UsernameChangeMessage message)
         {
-            var messageToSend = new UsernameChangeMessage() { UserId = "test", Username = message };
-
-            await _sendMessageHandler.SendUsernameChangeMessage(messageToSend);
+            await _sendMessageHandler.SendUsernameChangeMessage(message);
 
             return Ok();
         }

@@ -70,14 +70,6 @@ else
     app.UseMiddleware<ExceptionMiddleware>();
 }
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<PostDbContext>();
-    context.Database.EnsureCreated();
-}
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

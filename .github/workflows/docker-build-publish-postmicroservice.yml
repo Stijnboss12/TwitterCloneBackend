@@ -1,4 +1,4 @@
-name: Build & Publish UserMicroService
+name: Build & Publish PostMicroService
 
 on:
   # run it on push to the default repository branch
@@ -41,11 +41,11 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
-          file: ./UserMicroServiceDockerfile
+          file: ./PostMicroServiceDockerfile
           # Note: tags has to be all lower-case
           tags: |
-            twitterclone.usermicroservice:latest 
-            ghcr.io/twitterclone.usermicroservice:latest
+            twitterclone.postmicroservice:latest 
+            ghcr.io/twitterclone.postmicroservice:latest
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/master' }}
 

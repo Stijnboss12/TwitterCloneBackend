@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["UserMicroService/UserMicroService.csproj", "UserMicroService/"]
+COPY ["TwitterCloneBackend.Shared/TwitterCloneBackend.Shared.csproj", "TwitterCloneBackend.Shared/"]
 RUN dotnet restore "UserMicroService/UserMicroService.csproj"
 COPY . .
 WORKDIR "/src/UserMicroService"

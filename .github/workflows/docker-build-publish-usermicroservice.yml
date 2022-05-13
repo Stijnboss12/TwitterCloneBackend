@@ -44,8 +44,8 @@ jobs:
           file: ./UserMicroServiceDockerfile
           # Note: tags has to be all lower-case
           tags: |
-            twitterclone.usermicroservice:latest 
-            ghcr.io/twitterclone.usermicroservice:latest
+            stijnboss12/twitterclone.usermicroservice:latest 
+            ghcr.io/stijnboss12/twitterclone.usermicroservice:latest
           # build on feature branches, push only on main branch
           push: true
 

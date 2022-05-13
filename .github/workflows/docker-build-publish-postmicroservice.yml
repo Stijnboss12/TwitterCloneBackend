@@ -44,8 +44,8 @@ jobs:
           file: ./PostMicroServiceDockerfile
           # Note: tags has to be all lower-case
           tags: |
-            twitterclone.postmicroservice:latest 
-            ghcr.io/twitterclone.postmicroservice:latest
+            stijnboss12/twitterclone.postmicroservice:latest 
+            ghcr.io/stijnboss12/twitterclone.postmicroservice:latest
           # build on feature branches, push only on main branch
           push: true
 

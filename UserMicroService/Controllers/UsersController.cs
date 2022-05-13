@@ -47,8 +47,21 @@ namespace UserMicroService.Controllers
             return Ok();
         }
 
-        [HttpGet("{username}")]
-        public async Task<IActionResult> GetUsers(string username)
+        [HttpGet("ById/{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            if (id == string.Empty)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var users = await _userService.GetUserById(id);
+
+            return Ok(users);
+        }
+
+        [HttpGet("ByUsername/{username}")]
+        public async Task<IActionResult> GetUsersByUsername(string username)
         {
             if (username == string.Empty)
             {
@@ -75,9 +88,18 @@ namespace UserMicroService.Controllers
             return Ok(createdSubscription);
         }
 
-        [HttpPost("messagesend")]
-        public async Task<IActionResult> SendMessage([FromBody] UsernameChangeMessage message)
+        [HttpPost("ChangeUsername")]
+        public async Task<IActionResult> ChangeUsername([FromBody] UserDTO userDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedUser = await _userService.ChangeUsername(userDTO);
+
+            var message = new UsernameChangeMessage() { UserId = updatedUser.Id, Username = updatedUser.Username};
+
             await _sendMessageHandler.SendUsernameChangeMessage(message);
 
             return Ok();

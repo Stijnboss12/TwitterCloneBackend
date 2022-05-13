@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using TwitterCloneBackend.Shared.Exceptions;
 
 namespace UserMicroService.Domain
 {
@@ -15,18 +16,21 @@ namespace UserMicroService.Domain
             {
                 await _next(httpContext);
             }
+            catch (EntityNotFoundException ex)
+            {
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound);
+            }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError);
             }
         }
-        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             await context.Response.WriteAsync(new IError()
             {
-                StatusCode = context.Response.StatusCode,
+                StatusCode = (int)statusCode,
                 Message = exception.Message
             }.ToString());
         }

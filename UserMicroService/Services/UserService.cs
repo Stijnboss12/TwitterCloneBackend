@@ -30,9 +30,25 @@ namespace UserMicroService.Services
             return createdUser;
         }
 
+        public async Task<User> GetUserById(string id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
+
         public async Task<List<User>> GetUsersByUsername(string username)
         {
             return await _userRepository.GetUsersByUsername(username);
+        }
+
+        public async Task<User> ChangeUsername(UserDTO userDTO)
+        {
+            var user = await _userRepository.GetUserById(userDTO.Id);
+
+            user.Username = userDTO.Username;
+
+            var changeduser = await _userRepository.EditUser(user);
+
+            return changeduser;
         }
     }
 }

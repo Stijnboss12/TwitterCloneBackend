@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using TwitterCloneBackend.Shared.Exceptions;
 using UserMicroService.Data;
 using UserMicroService.Models;
 using UserMicroService.Models.DTO;
@@ -37,9 +38,29 @@ namespace UserMicroService.Repositories
             return newUser;
         }
 
+        public async Task<User> GetUserById(string id)
+        {
+            var user = await _dbContext.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException(id);
+            }
+
+            return user;
+        }
+
         public async Task<List<User>> GetUsersByUsername(string username)
         {
             return await _dbContext.Users.Where(x => x.Username.Contains(username)).ToListAsync();
+        }
+
+        public async Task<User> EditUser(User userToChange)
+        {
+            _dbContext.Users.Update(userToChange);
+            await _dbContext.SaveChangesAsync();
+
+            return userToChange;
         }
     }
 }

@@ -30,11 +30,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Exceptions\" />
+    <ProjectReference Include="..\TwitterCloneBackend.Shared\TwitterCloneBackend.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterCloneBackend.Shared\TwitterCloneBackend.Shared.csproj" />
+    <Folder Include="Domain\Exceptions\" />
   </ItemGroup>
 
 </Project>

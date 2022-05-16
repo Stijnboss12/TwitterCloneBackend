@@ -1,0 +1,40 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Install dotnet'
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: 'Install Sonar global tool'
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: 'Begin Sonar scan'
+      run: >
+        dotnet sonarscanner begin
+        /d:sonar.host.url="https://sonarcloud.io"
+        /o:"stijnboss12"
+        /k:"Stijnboss12_TwitterCloneBackend"
+        /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+        /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+
+    - name: 'Restore packages'
+      run: dotnet restore
+
+    - name: 'Build project'
+      run: dotnet build --no-restore
+
+    - name: 'End Sonar scan'
+      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}

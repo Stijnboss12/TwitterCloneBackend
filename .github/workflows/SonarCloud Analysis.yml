@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [master, develop]
 
+env:
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   analyse:
     runs-on: ubuntu-latest
@@ -27,7 +31,7 @@ jobs:
         /d:sonar.host.url="https://sonarcloud.io"
         /o:"stijnboss12"
         /k:"Stijnboss12_TwitterCloneBackend"
-        /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+        /d:sonar.login=${{ env.SONAR_TOKEN }}
         /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
     - name: 'Restore packages'
@@ -37,4 +41,4 @@ jobs:
       run: dotnet build --no-restore
 
     - name: 'End Sonar scan'
-      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner end /d:sonar.login=${{ env.SONAR_TOKEN }}

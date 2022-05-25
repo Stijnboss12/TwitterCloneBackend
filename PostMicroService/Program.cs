@@ -19,7 +19,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
             .CreateLogger();
 
-Log.Information("Starting ACI.Reservations microservice");
+Log.Information("Starting TwitterCloneBackend PostMicroService");
 
 try
 {
@@ -50,7 +50,7 @@ void Run()
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.AddAciLogging();
+    builder.Host.AddTwitterCloneLogging();
 
     // Add services to the container.
     builder.Services.AddSingleton<IMapper>(x => SetupMapper());

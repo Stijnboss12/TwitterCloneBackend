@@ -10,7 +10,7 @@ namespace TwitterCloneBackend.Shared.Logging
 {
     public static class LoggingExt
     {
-        public static void AddAciLogging(this IHostBuilder host)
+        public static void AddTwitterCloneLogging(this IHostBuilder host)
         {
             host.UseSerilog((ctx, logConfig) =>
             {

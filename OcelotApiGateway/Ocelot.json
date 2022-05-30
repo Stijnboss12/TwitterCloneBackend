@@ -120,6 +120,21 @@
         "AuthenticationProviderKey": "Auth0",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/Posts/{all}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7083
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Posts/{all}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Auth0",
+        "AllowedScopes": []
+      }
     }
   ]
 }

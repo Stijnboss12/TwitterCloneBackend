@@ -20,7 +20,7 @@ services:
   seq:
     image: datalust/seq:latest
     volumes:
-      - ~/apps/seq/data2:/data
+      - ~/apps/seq/data3:/data
     ports:
       - '5341:80'
     environment:

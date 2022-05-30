@@ -38,5 +38,11 @@ namespace PostMicroService.Controllers
 
             return Ok(createdPost);
         }
+
+        [HttpGet("ErrorEndpoint")]
+        public async Task<IActionResult> ErrorEndpoint()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

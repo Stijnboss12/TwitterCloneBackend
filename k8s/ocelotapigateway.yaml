@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitterclone-ocelotapigateway
+spec:
+  selector:
+    matchLabels:
+      app: twitterclone-ocelotapigateway
+  replicas: 2
+  strategy:  
+    rollingUpdate:  
+      maxSurge: 1  
+      maxUnavailable: 1  
+  minReadySeconds: 5   
+  template:
+    metadata:
+      labels:
+        app: twitterclone-ocelotapigateway
+    spec:
+      containers:
+        - name: twitterclone-ocelotapigateway
+          image: stijnboss12/twitterclone.ocelotapigateway:latest
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+              protocol: TCP          
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: twitterclone-ocelotapigateway
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30665
+  selector:
+    app: twitterclone-ocelotapigateway

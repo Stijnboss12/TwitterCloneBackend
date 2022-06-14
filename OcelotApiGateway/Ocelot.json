@@ -1,16 +1,15 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7006"
+    "BaseUrl": "http://minikube.local:30665"
   },
   "Routes": [
-    // Users
     {
       "DownstreamPathTemplate": "/Users/Login",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "minikube.local",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Login",
@@ -25,22 +24,22 @@
     },
     {
       "DownstreamPathTemplate": "/Users/Register",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "minikube.local",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Register"
     },
     {
       "DownstreamPathTemplate": "/Users/ChangeUsername",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "minikube.local",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/ChangeUsername",
@@ -54,11 +53,11 @@
     },
     {
       "DownstreamPathTemplate": "/Users/Subscribe",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "minikube.local",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Subscribe",
@@ -70,14 +69,24 @@
         "id": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
       }
     },
-    // Catch all for Userservice endpoints
     {
-      "DownstreamPathTemplate": "/Users/{all}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/Users/ErrorEndpoint",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "minikube.local",
+          "Port": 30663
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/ErrorEndpoint"
+    },
+    {
+      "DownstreamPathTemplate": "/Users/{all}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "minikube.local",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/{all}",
@@ -86,14 +95,13 @@
         "AllowedScopes": []
       }
     },
-    // Posts
     {
       "DownstreamPathTemplate": "/Posts/New",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7083
+          "Host": "minikube.local",
+          "Port": 30664
         }
       ],
       "UpstreamPathTemplate": "/api/Posts/New",
@@ -108,11 +116,11 @@
     },
     {
       "DownstreamPathTemplate": "/Posts",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7083
+          "Host": "minikube.local",
+          "Port": 30664
         }
       ],
       "UpstreamPathTemplate": "/api/Posts",
@@ -122,12 +130,23 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/Posts/{all}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/Posts/ErrorEndpoint",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7083
+          "Host": "minikube.local",
+          "Port": 30664
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Posts/ErrorEndpoint"
+    },
+    {
+      "DownstreamPathTemplate": "/Posts/{all}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "minikube.local",
+          "Port": 30664
         }
       ],
       "UpstreamPathTemplate": "/api/Posts/{all}",

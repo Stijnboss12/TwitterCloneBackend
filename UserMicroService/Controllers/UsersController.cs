@@ -104,5 +104,11 @@ namespace UserMicroService.Controllers
 
             return Ok();
         }
+
+        [HttpGet("ErrorEndpoint")]
+        public async Task<IActionResult> ErrorEndpoint()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

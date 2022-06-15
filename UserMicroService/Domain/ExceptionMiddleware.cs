@@ -28,6 +28,7 @@ namespace UserMicroService.Domain
         private async Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode)
         {
             context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)statusCode;
             await context.Response.WriteAsync(new IError()
             {
                 StatusCode = (int)statusCode,

@@ -98,7 +98,7 @@ namespace UserMicroService.Controllers
 
             var updatedUser = await _userService.ChangeUsername(userDTO);
 
-            var message = new UsernameChangeMessage() { UserId = updatedUser.Id, Username = updatedUser.Username};
+            var message = new UsernameChangeMessage() { UserId = updatedUser.Id, Username = updatedUser.Username };
 
             await _sendMessageHandler.SendUsernameChangeMessage(message);
 
@@ -109,6 +109,18 @@ namespace UserMicroService.Controllers
         public async Task<IActionResult> ErrorEndpoint()
         {
             throw new NotImplementedException();
+        }
+
+        [HttpGet("TestUser")]
+        public async Task<IActionResult> GetTestUser()
+        {
+            var user = new User()
+            {
+                Id = "test",
+                Username = "testusername"
+            };
+
+            return Ok(user);
         }
     }
 }

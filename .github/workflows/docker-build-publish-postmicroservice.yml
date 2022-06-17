@@ -3,10 +3,10 @@ name: Build & Publish PostMicroService
 on:
   # run it on push to the default repository branch
   push:
-    branches: [kubernetes]
+    branches: [master]
   # run it during pull request
   pull_request:
-    branches: [master]
+    branches: []
 
 jobs:
   # define job to build and publish docker image

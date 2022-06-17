@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twitterclone-usermicroservice
+spec:
+  selector:
+    matchLabels:
+      app: twitterclone-usermicroservice
+  replicas: 2
+  strategy:  
+    rollingUpdate:  
+      maxSurge: 1  
+      maxUnavailable: 1  
+  minReadySeconds: 5   
+  template:
+    metadata:
+      labels:
+        app: twitterclone-usermicroservice
+    spec:
+      containers:
+        - name: twitterclone-usermicroservice
+          image: stijnboss12/twitterclone.usermicroservice:latest
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 80
+              protocol: TCP          
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: twitterclone-usermicroservice
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30663
+  selector:
+    app: twitterclone-usermicroservice

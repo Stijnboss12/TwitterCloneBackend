@@ -12,66 +12,95 @@ using UserMicroService.Models.DTO;
 using UserMicroService.Models;
 using MassTransit;
 using UserMicroService.Messaging;
+using Serilog;
+using TwitterCloneBackend.Shared.Logging;
 
-IMapper SetupMapper()
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+            .CreateLogger();
+
+Log.Information("Starting TwitterCloneBackend PostMicroService");
+
+try
 {
-    var configuration = new MapperConfiguration(cfg =>
+    Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Unhandled exception");
+}
+finally
+{
+    Log.Information("Shut down complete");
+    Log.CloseAndFlush();
+}
+
+void Run()
+{
+    IMapper SetupMapper()
     {
-        cfg.CreateMap<User, UserDTO>();
-        cfg.CreateMap<UserDTO, User>();
-        cfg.CreateMap<Subscription, SubscriptionDTO>();
-        cfg.CreateMap<SubscriptionDTO, Subscription>();
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<User, UserDTO>();
+            cfg.CreateMap<UserDTO, User>();
+            cfg.CreateMap<Subscription, SubscriptionDTO>();
+            cfg.CreateMap<SubscriptionDTO, Subscription>();
+        });
+
+        return new Mapper(configuration);
+    }
+
+
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Host.AddTwitterCloneLogging();
+
+    // Add services to the container.
+    builder.Services.AddSingleton<IMapper>(x => SetupMapper());
+    builder.Services.AddControllers();
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    // Dependency injection
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+    builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+    builder.Services.AddScoped<ISendMessageHandler, SendMessageHandler>();
+
+    // Setup database
+    builder.Services.AddDbContext<UserDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+
+    // Setup Messaging
+    builder.Services.AddMassTransit(x =>
+    {
+        x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+        {
+            config.Host(new Uri(builder.Configuration.GetSection("AppConfig")["RabbitMQBaseUrl"]));
+        }));
     });
+    builder.Services.AddMassTransitHostedService();
 
-    return new Mapper(configuration);
-}
+    var app = builder.Build();
 
+    app.UseSerilogRequestLogging();
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddSingleton<IMapper>(x => SetupMapper());
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Dependency injection
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
-builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
-builder.Services.AddScoped<ISendMessageHandler, SendMessageHandler>();
-
-// Setup database
-builder.Services.AddDbContext<UserDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-
-// Setup Messaging
-builder.Services.AddMassTransit(x =>
-{
-    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
     {
-        config.Host(new Uri(builder.Configuration.GetSection("AppConfig")["RabbitMQBaseUrl"]));
-    }));
-});
-builder.Services.AddMassTransitHostedService();
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-var app = builder.Build();
+    app.UseMiddleware<ExceptionMiddleware>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseMiddleware<ExceptionMiddleware>();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

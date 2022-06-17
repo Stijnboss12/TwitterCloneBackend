@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PostMicroService.Models;
 using PostMicroService.Models.DTO;
 using PostMicroService.Services.Interfaces;
 
@@ -37,6 +38,27 @@ namespace PostMicroService.Controllers
             var createdPost = await _postService.CreateNewPost(postDTO);
 
             return Ok(createdPost);
+        }
+
+        [HttpGet("ErrorEndpoint")]
+        public async Task<IActionResult> ErrorEndpoint()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("TestPost")]
+        public async Task<IActionResult> GetTestPost()
+        {
+            var post = new Post()
+            {
+                Id = Guid.NewGuid(),
+                UserId = "test",
+                Username = "testusername",
+                Content = "Dit is een test post",
+                PostedOn = DateTime.UtcNow.AddDays(-1),
+            };
+
+            return Ok(post);
         }
     }
 }

@@ -1,16 +1,15 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7006"
+    "BaseUrl": "192.168.2.6:30665"
   },
   "Routes": [
-    // Users
     {
       "DownstreamPathTemplate": "/Users/Login",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "192.168.2.6",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Login",
@@ -25,22 +24,22 @@
     },
     {
       "DownstreamPathTemplate": "/Users/Register",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "192.168.2.6",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Register"
     },
     {
       "DownstreamPathTemplate": "/Users/ChangeUsername",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "192.168.2.6",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/ChangeUsername",
@@ -54,11 +53,11 @@
     },
     {
       "DownstreamPathTemplate": "/Users/Subscribe",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "192.168.2.6",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/Subscribe",
@@ -70,14 +69,35 @@
         "id": "Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value"
       }
     },
-    // Catch all for Userservice endpoints
     {
-      "DownstreamPathTemplate": "/Users/{all}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/Users/ErrorEndpoint",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7016
+          "Host": "192.168.2.6",
+          "Port": 30663
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/ErrorEndpoint"
+    },
+    {
+      "DownstreamPathTemplate": "/Users/TestUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.2.6",
+          "Port": 30663
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Users/TestUser"
+    },
+    {
+      "DownstreamPathTemplate": "/Users/{all}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.2.6",
+          "Port": 30663
         }
       ],
       "UpstreamPathTemplate": "/api/Users/{all}",
@@ -86,14 +106,13 @@
         "AllowedScopes": []
       }
     },
-    // Posts
     {
       "DownstreamPathTemplate": "/Posts/New",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7083
+          "Host": "192.168.2.6",
+          "Port": 30664
         }
       ],
       "UpstreamPathTemplate": "/api/Posts/New",
@@ -108,14 +127,51 @@
     },
     {
       "DownstreamPathTemplate": "/Posts",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7083
+          "Host": "192.168.2.6",
+          "Port": 30664
         }
       ],
       "UpstreamPathTemplate": "/api/Posts",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Auth0",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/Posts/ErrorEndpoint",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.2.6",
+          "Port": 30664
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Posts/ErrorEndpoint"
+    },
+    {
+      "DownstreamPathTemplate": "/Posts/TestPost",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.2.6",
+          "Port": 30664
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Posts/TestPost"
+    },
+    {
+      "DownstreamPathTemplate": "/Posts/{all}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "192.168.2.6",
+          "Port": 30664
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Posts/{all}",
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Auth0",
         "AllowedScopes": []
